@@ -10,20 +10,4 @@ pip install artefacts
 
 ### Development Set Up
 
-Install with poetry
-
-```
-poetry install
-```
-
-Build the dbt example project.
-
-```
-poetry run dbt build --project-dir dbt_projects/poffertjes_shop --profiles-dir dbt_projects
-```
-
-Run the test suite.
-
-```
-poetry run pytest
-```
+Open the project inside the devcontainer. This may take a few minutes to install all the dependencies.
