@@ -6,13 +6,38 @@ class NodeId:
     def __init__(self, node_id):
         self.node_id = node_id
 
+    def __str__(self):
+        return self.node_id
 
+    def __repr__(self):
+        return str(self)
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __hash__(self):
+        return hash(str(self))
+
+
+# TODO: tests for the dunder methods
 class Node:
     def __init__(self, node, target='./target'):
         self._node = node
         if 'manifest' not in cache.local:
             cache.local['manifest'] = Manifest(target=target)
         self.manifest = cache.local['manifest']
+
+    def __str__(self):
+        return self.unique_id
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__.capitalize()} {str(self)}>"
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __hash__(self):
+        return hash(str(self))
 
     @property
     def unique_id(self):
@@ -117,12 +142,33 @@ class Manifest:
     def metrics(self):
         return {k: v for k, v in self._nodes.items() if type(v) == Metric}
 
-    # todo: cache, convert ids and nodes into their resource types
     @property
     def parent_map(self):
-        return self._manifest.parent_map
+        if 'parent_map' in self._cache:
+            return self._cache['parent_map']
+        
+        result = dict()
 
-    # todo: cache, convert ids and nodes into their resource types
+        for _node_id, _nodes in self._manifest.parent_map.items():
+            node_id = NodeId(node_id=_node_id)
+            nodes = [Node(node=n) for n in _nodes]
+            result.update({node_id: nodes})
+        self._cache.update(parent_map=result)
+        
+        return result
+
+    # todo: DRY up the child_map and parent_map attributes
     @property
     def child_map(self):
-        return self._manifest.child_map
+        if 'child_map' in self._cache:
+            return self._cache['child_map']
+        
+        result = dict()
+
+        for _node_id, _nodes in self._manifest.child_map.items():
+            node_id = NodeId(node_id=_node_id)
+            nodes = [Node(node=n) for n in _nodes]
+            result.update({node_id: nodes})
+        self._cache.update(child_map=result)
+        
+        return result
