@@ -9,12 +9,11 @@ sudo -u postgres psql -c "create user $PGUSER with password '$PGPASSWORD'"
 sudo -u postgres createdb $PGDATABASE -O $PGUSER
 
 # Install dependencies
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-poetry install
+pip install -r requirements.txt
 
 # Build dbt test project
 git submodule update --init --recursive
-poetry run dbt deps --project-dir dbt_projects/poffertjes_shop
-poetry run dbt build --project-dir dbt_projects/poffertjes_shop
-poetry run dbt docs generate --project-dir dbt_projects/poffertjes_shop
-poetry run dbt source freshness --project-dir dbt_projects/poffertjes_shop
+dbt deps --project-dir dbt_projects/poffertjes_shop
+dbt build --project-dir dbt_projects/poffertjes_shop
+dbt docs generate --project-dir dbt_projects/poffertjes_shop
+dbt source freshness --project-dir dbt_projects/poffertjes_shop
