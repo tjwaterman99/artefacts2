@@ -1,6 +1,3 @@
-from artefacts.core import Node
-
-
 def test_node_parents(manifest):
     for model in manifest.models.values():
         assert model.parents is not None
