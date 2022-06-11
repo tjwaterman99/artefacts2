@@ -48,7 +48,7 @@ jobs:
       run: |
         dbt deps --project-dir ${{ env.DBT_PROJECT_DIR }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
         dbt build --project-dir ${{ env.DBT_PROJECT_DIR }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
-        dbt docs generate --project-dir ${{ env.DBT_PROJECT_DIR }} --profiles-dir ${ env.DBT_PROFILES_DIR }}
+        dbt docs generate --project-dir ${{ env.DBT_PROJECT_DIR }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
         dbt source freshness --project-dir ${{ env.DBT_PROJECT_DIR }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
     - name: pytest
       run: pytest
