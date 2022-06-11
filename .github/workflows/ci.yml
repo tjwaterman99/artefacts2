@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 env:
-  PGHOST: postgres
+  PGHOST: localhost
   PGPASSWORD: password
   PGUSER: artefacts
   PGDATABASE: artefacts
@@ -20,7 +20,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
           POSTGRES_USER: ${{ env.PGUSER }}
-          POSTGRES_DATABASE: ${{ env.PGDATABASE }}
+          POSTGRES_DB: ${{ env.PGDATABASE }}
         image: postgres
         ports:
           - 5432:5432
