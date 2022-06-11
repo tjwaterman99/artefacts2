@@ -39,6 +39,8 @@ jobs:
     - name: Install requirements.txt
       run: |
         pip install -r requirements.txt
+    - name: Install artefacts
+      run: pip install .
     - name: Update git submodules
       run: git submodule update --init --recursive
     - name: Build dbt project
