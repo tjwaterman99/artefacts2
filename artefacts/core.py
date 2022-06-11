@@ -21,11 +21,11 @@ class NodeId:
 
 # TODO: tests for the dunder methods
 class Node:
-    def __init__(self, node, target='./target'):
+    def __init__(self, node, target="./target"):
         self._node = node
-        if 'manifest' not in cache.local:
-            cache.local['manifest'] = Manifest(target=target)
-        self.manifest = cache.local['manifest']
+        if "manifest" not in cache.local:
+            cache.local["manifest"] = Manifest(target=target)
+        self.manifest = cache.local["manifest"]
 
     def __str__(self):
         return self.unique_id
@@ -91,22 +91,22 @@ class Analysis(Node):
 class Manifest:
 
     node_types = {
-        'model': Model,
-        'test': Test,
-        'source': Source,
-        'macro': Macro,
-        'exposure': Exposure,
-        'metric': Metric,
-        'operation': Operation,
-        'seed': Seed,
-        'analysis': Analysis,
+        "model": Model,
+        "test": Test,
+        "source": Source,
+        "macro": Macro,
+        "exposure": Exposure,
+        "metric": Metric,
+        "operation": Operation,
+        "seed": Seed,
+        "analysis": Analysis,
     }
 
     def __init__(self, target):
         self.target = target
         self._manifest = WritableManifest.read(self.target)
         self._cache = dict()
-        cache.local['manifest'] = self
+        cache.local["manifest"] = self
 
     def _get_all_nodes(self):
         return {
@@ -120,16 +120,16 @@ class Manifest:
 
     @property
     def _nodes(self):
-        if '_nodes' in self._cache:
-            return self._cache['_nodes']
+        if "_nodes" in self._cache:
+            return self._cache["_nodes"]
 
         result = {}
         for node_id, node in self._get_all_nodes().items():
             ResourceType = self.node_types.get(node.resource_type)
             if ResourceType is not None:
                 result[node_id] = ResourceType(node)
-        self._cache['_nodes'] = result
-        return self._cache['_nodes']
+        self._cache["_nodes"] = result
+        return self._cache["_nodes"]
 
     # todo: cache
     @property
@@ -159,9 +159,9 @@ class Manifest:
 
     @property
     def parent_map(self):
-        if 'parent_map' in self._cache:
-            return self._cache['parent_map']
-        
+        if "parent_map" in self._cache:
+            return self._cache["parent_map"]
+
         result = dict()
 
         for _node_id, _nodes in self._manifest.parent_map.items():
@@ -169,15 +169,15 @@ class Manifest:
             nodes = [self._nodes.get(n) for n in _nodes]
             result.update({node_id: nodes})
         self._cache.update(parent_map=result)
-        
+
         return result
 
     # todo: DRY up the child_map and parent_map attributes
     @property
     def child_map(self):
-        if 'child_map' in self._cache:
-            return self._cache['child_map']
-        
+        if "child_map" in self._cache:
+            return self._cache["child_map"]
+
         result = dict()
 
         for _node_id, _nodes in self._manifest.child_map.items():
@@ -185,5 +185,5 @@ class Manifest:
             nodes = [self._nodes.get(n) for n in _nodes]
             result.update({node_id: nodes})
         self._cache.update(child_map=result)
-        
+
         return result
