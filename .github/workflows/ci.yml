@@ -6,22 +6,23 @@ on:
 permissions:
   contents: read
 
-jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.7"
-        cache: pip
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+env:
+  PGHOST: localhost
+  PGPASSWORD: password
+  PGUSER: artefacts
+  PGDATABASE: artefacts
 
+jobs:
   pytest:
-    needs: setup
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5    
     steps:
     - uses: actions/checkout@v3    
     - name: Set up Python
@@ -29,9 +30,19 @@ jobs:
       with:
         python-version: "3.7"
         cache: pip
-    - name: install dependencies
+    - name: Install requirements.txt
       run: |
-        pip list
         pip install -r requirements.txt
+    - name: Update git submodules
+      run: git submodule update --init --recursive
+    - name: Build dbt project
+      env: 
+        DBT_PROJECT: poffertjes_shop
+        DBT_TARGET_DIR: dbt_projects
+      run: |
+        dbt deps --project-dir dbt_projects/{{ env.DBT_PROJECT }} --target dir {{ env.DBT_TARGET_DIR }}
+        dbt build --project-dir dbt_projects/{{ env.DBT_PROJECT }} --target dir {{ env.DBT_TARGET_DIR }}
+        dbt docs generate --project-dir dbt_projects/{{ env.DBT_PROJECT }} --target dir {{ env.DBT_TARGET_DIR }}
+        dbt source freshness --project-dir dbt_projects/{{ env.DBT_PROJECT }} --target dir {{ env.DBT_TARGET_DIR }}
     - name: pytest
       run: pytest
