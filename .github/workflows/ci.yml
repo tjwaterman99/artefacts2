@@ -44,9 +44,9 @@ jobs:
         DBT_PROJECT: poffertjes_shop
         DBT_TARGET_DIR: dbt_projects
       run: |
-        dbt deps --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target dir ${{ env.DBT_TARGET_DIR }}
-        dbt build --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target dir ${{ env.DBT_TARGET_DIR }}
-        dbt docs generate --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target dir ${ env.DBT_TARGET_DIR }}
-        dbt source freshness --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target dir ${{ env.DBT_TARGET_DIR }}
+        dbt deps --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target_dir ${{ env.DBT_TARGET_DIR }}
+        dbt build --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target_dir ${{ env.DBT_TARGET_DIR }}
+        dbt docs generate --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target_dir ${ env.DBT_TARGET_DIR }}
+        dbt source freshness --project-dir dbt_projects/${{ env.DBT_PROJECT }} --target_dir ${{ env.DBT_TARGET_DIR }}
     - name: pytest
       run: pytest
