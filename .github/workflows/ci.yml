@@ -56,8 +56,8 @@ jobs:
       run: pytest -vs
 
   flake8:
-    container: 
-      image: python:3.10
+    runs-on: ubuntu-latest
+    container: python:3.10
     steps:
     - uses: actions/checkout@v3
     - name: Install flake8
@@ -66,8 +66,8 @@ jobs:
       run: flake8 artefacts tests
 
   black:
-    container: 
-      image: python:3.10
+    runs-on: ubuntu-latest
+    container: python:3.10
     steps:
     - uses: actions/checkout@v3
     - name: Install black
@@ -76,8 +76,8 @@ jobs:
       run: black --check
 
   mypy:
-    container: 
-      image: python:3.10
+    runs-on: ubuntu-latest
+    container: python:3.10
     steps:
     - uses: actions/checkout@v3
     - name: Install mypy
