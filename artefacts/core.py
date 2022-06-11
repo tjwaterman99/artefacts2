@@ -91,15 +91,15 @@ class Analysis(Node):
 class Manifest:
 
     node_types = {
-        'model': Model,
-        'test': Test,
-        'source': Source,
-        'macro': Macro,
-        'exposure': Exposure,
-        'metric': Metric,
-        'operation': Operation,
-        'seed': Seed,
-        'analysis': Analysis,
+        "model": Model,
+        "test": Test,
+        "source": Source,
+        "macro": Macro,
+        "exposure": Exposure,
+        "metric": Metric,
+        "operation": Operation,
+        "seed": Seed,
+        "analysis": Analysis,
     }
 
     def __init__(self, target):
