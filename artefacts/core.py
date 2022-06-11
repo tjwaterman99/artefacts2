@@ -76,15 +76,30 @@ class Metric(Node):
     pass
 
 
+class Operation(Node):
+    pass
+
+
+class Seed(Node):
+    pass
+
+
+class Analysis(Node):
+    pass
+
+
 class Manifest:
 
     node_types = {
-        "model": Model,
-        "test": Test,
-        "source": Source,
-        "macro": Macro,
-        "exposure": Exposure,
-        "metric": Metric,
+        'model': Model,
+        'test': Test,
+        'source': Source,
+        'macro': Macro,
+        'exposure': Exposure,
+        'metric': Metric,
+        'operation': Operation,
+        'seed': Seed,
+        'analysis': Analysis,
     }
 
     def __init__(self, target):
@@ -151,7 +166,7 @@ class Manifest:
 
         for _node_id, _nodes in self._manifest.parent_map.items():
             node_id = NodeId(node_id=_node_id)
-            nodes = [Node(node=n) for n in _nodes]
+            nodes = [self._nodes.get(n) for n in _nodes]
             result.update({node_id: nodes})
         self._cache.update(parent_map=result)
 
@@ -167,7 +182,7 @@ class Manifest:
 
         for _node_id, _nodes in self._manifest.child_map.items():
             node_id = NodeId(node_id=_node_id)
-            nodes = [Node(node=n) for n in _nodes]
+            nodes = [self._nodes.get(n) for n in _nodes]
             result.update({node_id: nodes})
         self._cache.update(child_map=result)
 
