@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 env:
-  PGHOST: localhost
+  PGHOST: postgres
   PGPASSWORD: password
   PGUSER: artefacts
   PGDATABASE: artefacts
