@@ -1,5 +1,4 @@
-from pytest import fixture
-from pytest import mark
+from pytest import fixture, mark
 from artefacts.core import Manifest, NodeId
 
 
@@ -59,8 +58,9 @@ def test_manifest_sources(manifest):
     assert len(manifest.sources) > 0
 
 
-def test_manifest_sources(manifest):
-    assert len(manifest.sources) > 0
+@mark.skip
+def test_manifest_seeds(manifest):
+    assert len(manifest.seeds) > 0
 
 
 def test_manifest_macros(manifest):
