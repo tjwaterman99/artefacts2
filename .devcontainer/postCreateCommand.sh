@@ -10,6 +10,7 @@ sudo -u postgres createdb $PGDATABASE -O $PGUSER
 
 # Install dependencies
 pip install -r requirements.txt
+pip install --editable .
 
 # Build dbt test project
 git submodule update --init --recursive
